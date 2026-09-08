@@ -1,0 +1,25 @@
+/* type */
+list-style: square;
+
+/* image */
+list-style: url("../img/shape.png");
+
+/* position */
+list-style: inside;
+
+/* two values */
+list-style: georgian outside;
+list-style: url("img/pip.svg") inside;
+
+/* three values */
+list-style: lower-roman url("img/shape.png") outside;
+
+/* Keyword value */
+list-style: none;
+
+/* Global values */
+list-style: inherit;
+list-style: initial;
+list-style: revert;
+list-style: revert-layer;
+list-style: unset;
