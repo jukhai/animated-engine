@@ -1,0 +1,81 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+input,button{
+    font-size:30px;
+}
+.container {
+    text-align: center;
+    justify-content: center;
+}
+
+#board {
+    display: flex; /* Use flexbox for rows */
+    flex-direction: column; /* Stack rows vertically */
+    gap: 5px; /* Gap between rows */
+    margin: 10px auto;
+    justify-content: center;
+}
+
+.board-row {
+    display: grid;
+    grid-template-columns: repeat(5, 50px);
+    grid-gap: 5px;
+    justify-content: center;
+}
+
+.cell {
+    width: 50px;
+    height: 50px;
+    border: 2px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Arial Black";
+    font-size: 30px;
+    background-color: white;
+    position: relative; /* Needed for positioning input */
+}
+
+.cell-input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    text-align: center;
+    font-family: "Arial Black";
+    font-size: 30px;
+    background: transparent; /* Make input background transparent */
+    outline: none; /* Remove outline on focus */
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+   /* text-transform: uppercase; /* Optional: automatically convert to uppercase */
+}
+
+.correct {
+    /* background-color: rgba(14, 215, 14, 0.672); */
+    background: linear-gradient(0deg,rgb(42, 155, 76) 0%, rgba(87, 199, 133, 1) 50%, rgb(83, 237, 98) 100%);
+    color: white;
+}
+
+.present {
+    background: linear-gradient(0deg,rgb(149, 155, 42) 0%, rgb(246, 235, 93) 50%, rgba(237, 221, 83, 1) 100%);
+    color: black;
+}
+.absent {
+    /* background-color: rgb(138, 136, 136); */
+    background: linear-gradient(0deg,rgb(109, 111, 111) 0%, rgb(59, 59, 59) 50%, rgb(13, 13, 13) 100%);
+    color: white;
+}
+
+#message, #message1 {
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}

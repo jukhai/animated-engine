@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+  <title>Sò͘-to̍k</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      margin: 20px auto;
+    }
+    td {
+      border: 1px solid #999;
+      width: 40px;
+      height: 40px;
+      text-align: center;
+    }
+td[title] {
+  position: relative;
+  cursor: help;
+}
+    input {
+      width: 38px;
+      height: 38px;
+      font-size: 18px;
+      text-align: center;
+      border: none;
+      transition: border 0.2s;
+      border: 1px solid #ccc;
+    }
+
+    td.box-border {
+      border-right: 2px solid black;
+      border-bottom: 2px solid black;
+    }
+    td.box-left {
+      border-left: 2px solid black;
+    }
+    td.box-top {
+      border-top: 2px solid black;
+    }
+    td.box-right {
+      border-right: 2px solid black;
+    }
+    td.box-bottom {
+      border-bottom: 2px solid black;
+    }
+    button, select {
+      display: block;
+      margin: 10px auto;
+      padding: 6px 12px;
+      font-size: 16px;
+    }
+    h2, #result {
+      text-align: center;
+      font-weight: bold;
+    }
+    p {
+      margin-left: 20%;
+      font-size: 30px;
+      max-width: 50%; 
+    }
+  </style>
+</head>
+<body>
+
+<h2>sò͘-to̍k </h2>
+<p>
+kui-kí múi chi̍t chōa, múi chi̍t hâng lóng ū 1 kàu 9 múi chi̍t ê sò͘-jī
+9 keh 3x3 ê keh-á lāi mā sī kâng-khoán 1-9 lóng ē chhut-hiān
+jî-chhiáⁿ lóng kan-na chhut-hiān 1 pái, <font color="red">múi chi̍t chōa múi chi̍t hâng lóng bē-sái têng-ho̍k chhut-hiān</font>
+</p>
+<div><p>soán lân-tō͘</p></div>
+<select id="difficulty">
+  <option value="35">Kán-tan</option>
+  <option value="46" selected>Tiong-tiong</option>
+  <option value="52">Sió-khóa lân</option>
+  <option value="56">Chiok kan-lân</option>
+  <option value="62">Iáu-siū</option>
+</select>  
+
+<button onclick="newPuzzle()">Sin pôaⁿ</button>
+<div id="sudokuContainer"></div>
+<button onclick="checkSolution()">lóng thiⁿ liáu, Kiám-cha Tap-àn</button>
+<div id="result"></div>
+
+<script>
+const N = 9, BOX = 3;
+let solution = [], puzzle = [];
+
+function generateEmptyBoard() {
+  return Array.from({ length: N }, () => Array(N).fill(0));
+}
+
+function isSafe(board, row, col, num) {
+  for (let i = 0; i < N; i++) {
+    if (board[row][i] === num || board[i][col] === num) return false;
+  }
+  const boxRow = row - row % BOX, boxCol = col - col % BOX;
+  for (let i = 0; i < BOX; i++) {
+    for (let j = 0; j < BOX; j++) {
+      if (board[boxRow + i][boxCol + j] === num) return false;
+    }
+  }
+  return true;
+}
+
+function solve(board) {
+  for (let row = 0; row < N; row++) {
+    for (let col = 0; col < N; col++) {
+      if (board[row][col] === 0) {
+        const nums = shuffle([...Array(N).keys()].map(x => x + 1));
+        for (const num of nums) {
+          if (isSafe(board, row, col, num)) {
+            board[row][col] = num;
+            if (solve(board)) return true;
+            board[row][col] = 0;
+          }
+        }
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function removeCells(board, count) {
+  let removed = 0;
+  while (removed < count) {
+    const row = Math.floor(Math.random() * N);
+    const col = Math.floor(Math.random() * N);
+    if (board[row][col] !== 0) {
+      board[row][col] = 0;
+      removed++;
+    }
+  }
+  return board;
+}
+
+function createSudokuGrid(board) {
+  const container = document.getElementById("sudokuContainer");
+  container.innerHTML = ""; // clear existing grid
+  const table = document.createElement("table");
+
+  for (let i = 0; i < N; i++) {
+    const row = document.createElement("tr");
+    for (let j = 0; j < N; j++) {
+      const cell = document.createElement("td");
+      // if ((j +1) % 3 === 0 && j < N) cell.classList.add("box-border");
+      if (j % 3 === 0) cell.classList.add("box-left");
+      if( j == N-1)  cell.classList.add("box-right");
+      if (i % 3 === 0) cell.classList.add("box-top");
+      if( i == N-1)  cell.classList.add("box-bottom");
+
+      const input = document.createElement("input");
+      input.setAttribute("maxlength", 1);
+      input.setAttribute("data-row", i);
+      input.setAttribute("data-col", j);
+
+      if (board[i][j] !== 0) {
+        input.value = board[i][j];
+        input.disabled = true;
+        // input.style.color ='#0aa'
+        input.style.background = "#eee";
+        input.style.fontWeight = "bold";
+      }
+
+      cell.appendChild(input);
+      row.appendChild(cell);
+    }
+    table.appendChild(row);
+  }
+  container.appendChild(table);
+}
+
+/*
+function checkSolution() {
+  const grid = Array.from({ length: N }, () => Array(N).fill(0));
+  let allFilled = true;
+
+  for (let i = 0; i < N; i++) {
+    for (let j = 0; j < N; j++) {
+      const input = document.querySelector(`input[data-row='${i}'][data-col='${j}']`);
+      const val = parseInt(input.value);
+      const td = input.parentElement;
+
+      if (!val || val < 1 || val > 9) {
+        td.style.backgroundColor = "#ffcdd2"; // light red
+        input.style.color = "black";
+        allFilled = false;
+      } else {
+        grid[i][j] = val;
+        td.style.backgroundColor = "pink";       // reset
+      }
+    }
+  }
+
+  if (!allFilled) {
+    document.getElementById("result").innerText = "⚠️ Please fill all cells with digits 1–9.";
+    return;
+  }
+
+  if (isValidSudoku(grid)) {
+    document.getElementById("result").innerText = "🎉 Great job! You solved it!";
+  } else {
+    document.getElementById("result").innerText = "❌ Some cells are incorrect. Please check highlighted ones.";
+
+    // Highlight invalid positions
+    for (let i = 0; i < N; i++) {
+      for (let j = 0; j < N; j++) {
+        const input = document.querySelector(`input[data-row='${i}'][data-col='${j}']`);
+        const td = input.parentElement;
+        if (!isSafe(grid, i, j, grid[i][j])) {
+          td.style.backgroundColor = "#ffcdd2"; // light red
+        }
+      }
+    }
+  }
+}
+*/
+function checkSolution() {
+  const grid = Array.from({ length: N }, () => Array(N).fill(0));
+  let allFilled = true;
+
+  // Read values and store grid
+  for (let i = 0; i < N; i++) {
+    for (let j = 0; j < N; j++) {
+      const input = document.querySelector(`input[data-row='${i}'][data-col='${j}']`);
+      const val = parseInt(input.value);
+      const td = input.parentElement;
+
+      td.style.backgroundColor = ""; // reset previous style
+      td.removeAttribute("title");   // remove tooltip
+
+      if (!val || val < 1 || val > 9) {
+        td.style.backgroundColor = "#ffcdd2"; // light red
+        td.title = "Must be 1–9";
+        allFilled = false;
+      } else {
+        grid[i][j] = val;
+      }
+    }
+  }
+
+  if (!allFilled) {
+    document.getElementById("result").innerText = "⚠️ Some cells are empty or invalid.";
+    return;
+  }
+
+  if (isValidSudoku(grid)) {
+    document.getElementById("result").innerText = "🎉 Great job! You solved it!";
+  } else {
+    document.getElementById("result").innerText = "❌ Some cells are incorrect (highlighted).";
+
+    // Now mark each individual incorrect cell
+    for (let i = 0; i < N; i++) {
+      for (let j = 0; j < N; j++) {
+        const input = document.querySelector(`input[data-row='${i}'][data-col='${j}']`);
+        const td = input.parentElement;
+        const originalValue = grid[i][j];
+
+        // Temporarily remove it to test if it violates uniqueness
+        grid[i][j] = 0;
+        if (!isSafe(grid, i, j, originalValue)) {
+          td.style.backgroundColor = "#ffcdd2";
+          td.title = `❌ ${originalValue} violates Sudoku rules`;
+        }
+        grid[i][j] = originalValue;
+      }
+    }
+  }
+}
+
+function isValidSudoku(board) {
+  function hasAllOneToNine(group) {
+    return group.slice().sort().join('') === '123456789';
+  }
+
+  // Check rows and columns
+  for (let i = 0; i < N; i++) {
+    const row = [], col = [];
+    for (let j = 0; j < N; j++) {
+      row.push(board[i][j]);
+      col.push(board[j][i]);
+    }
+    if (!hasAllOneToNine(row) || !hasAllOneToNine(col)){
+
+      return false;
+    }
+  }
+
+  // Check 3x3 boxes
+  for (let boxRow = 0; boxRow < N; boxRow += BOX) {
+    for (let boxCol = 0; boxCol < N; boxCol += BOX) {
+      const box = [];
+      for (let i = 0; i < BOX; i++) {
+        for (let j = 0; j < BOX; j++) {
+          box.push(board[boxRow + i][boxCol + j]);
+        }
+      }
+      if (!hasAllOneToNine(box)) return false;
+    }
+  }
+
+  return true;
+}
+
+function newPuzzle() {
+  document.getElementById("result").innerText = "";
+  solution = generateEmptyBoard();
+  solve(solution);
+  const level = parseInt(document.getElementById("difficulty").value);
+  puzzle = solution.map(row => [...row]);
+  removeCells(puzzle, level);
+  createSudokuGrid(puzzle);
+}
+
+// Auto start on load
+newPuzzle();
+setTimeout(() => {
+  document.querySelectorAll("input:not([disabled])").forEach(input => {
+    input.addEventListener("input", () => {
+      const val = input.value;
+      if (!/^[1-9]$/.test(val)) {
+        input.style.border = "2px solid red";
+        input.value = ""; // remove invalid input
+      } else {
+        input.style.border = "1px solid #ccc";
+      }
+    });
+  });
+}, 50);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Othello Game</title>
+    <link rel="stylesheet" href="o.css">
+</head>
+
+<body>
+    <h1>Othello</h1>
+    <audio id="place-sound" src="button-19.wav" preload="auto"></audio>
+    <audio id="gameover-sound" src="button-10.wav" preload="auto"></audio>
+    <audio id="you-win" src="whistle-flute-1.mp3" preload="auto"></audio>
+    <audio id="you-fail" src="fail-trombone-01.mp3" preload="auto"></audio>
+    <label for="difficulty">AI Difficulty:</label>
+    <select id="difficulty">
+        <option value="2">Easy</option>
+        <option value="4" selected>Medium</option>
+        <option value="6">Hard</option>
+    </select>
+    <div id="game"></div>
+    <p id="status"></p>
+    <script src="o.js"></script>
+
+<!-- https://www.soundjay.com/button-sounds-1.html -->
+</body>
+
+</html>

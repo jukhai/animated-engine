@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pentominoes Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #1f2937;
+        }
+
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            padding: 2rem;
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            max-width: 90%;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .board-container {
+            border: 4px solid #4b5563;
+            background-color: #e5e7eb;
+            border-radius: 0.5rem;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .board {
+            display: grid;
+            grid-gap: 1px;
+            background-color: #4b5563;
+        }
+
+        .board-cell {
+            background-color: #f9fafb;
+            width: 30px;
+            height: 30px;
+        }
+
+        .pieces-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .piece {
+            cursor: grab;
+            display: grid;
+            grid-gap: 1px;
+            border-radius: 0.25rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .piece-cell {
+            width: 30px;
+            height: 30px;
+        }
+
+        .piece:active {
+            cursor: grabbing;
+            transform: scale(1.1);
+            z-index: 10;
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .control-button {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            background-color: #3b82f6;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .control-button:hover {
+            background-color: #2563eb;
+        }
+
+        .control-button:active {
+            transform: translateY(2px);
+        }
+
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            z-index: 20;
+            display: none; /* Initially hidden */
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+    <div class="game-container">
+        <h1 class="text-4xl font-bold text-gray-800">Pentominoes</h1>
+        <p class="text-lg text-gray-600">Drag and drop the pieces to solve the puzzle!</p>
+
+        <div class="game-area">
+            <div id="board-container" class="board-container">
+                <div id="board" class="board"></div>
+            </div>
+
+            <div id="game-controls" class="flex flex-row gap-4 mt-4">
+                <button onclick="showSolution()" class="control-button bg-green-500 hover:bg-green-600">Show Solution</button>
+                <button onclick="resetBoard()" class="control-button bg-red-500 hover:bg-red-600">Reset</button>
+            </div>
+
+            <div id="pieces-container" class="pieces-container"></div>
+        </div>
+        <div id="message-box" class="message-box">
+            <h2 id="message-text" class="text-2xl font-bold mb-4"></h2>
+            <button onclick="hideMessageBox()" class="control-button">OK</button>
+        </div>
+    </div>
+
+<script>
+    // Define the 12 pentomino shapes, each represented by a 2D array of 1s and 0s
+    const pentominoes = {
+        'F': {
+            shape: [[0, 1, 1], [1, 1, 0], [0, 1, 0]],
+            color: '#f87171' // Red
+        },
+        'I': {
+            shape: [[1], [1], [1], [1], [1]],
+            color: '#34d399' // Green
+        },
+        'L': {
+            shape: [[1, 0], [1, 0], [1, 0], [1, 1]],
+            color: '#60a5fa' // Blue
+        },
+        'P': {
+            shape: [[1, 1], [1, 1], [1, 0]],
+            color: '#facc15' // Yellow
+        },
+        'N': {
+            shape: [[0, 1], [0, 1], [1, 1], [1, 0]],
+            color: '#a78bfa' // Purple
+        },
+        'T': {
+            shape: [[1, 1, 1], [0, 1, 0], [0, 1, 0]],
+            color: '#fb923c' // Orange
+        },
+        'U': {
+            shape: [[1, 0, 1], [1, 1, 1]],
+            color: '#6ee7b7' // Teal
+        },
+        'V': {
+            shape: [[1, 0, 0], [1, 0, 0], [1, 1, 1]],
+            color: '#f472b6' // Pink
+        },
+        'W': {
+            shape: [[1, 0, 0], [1, 1, 0], [0, 1, 1]],
+            color: '#c084fc' // Light purple
+        },
+        'X': {
+            shape: [[0, 1, 0], [1, 1, 1], [0, 1, 0]],
+            color: '#22d3ee' // Cyan
+        },
+        'Y': {
+            shape: [[0, 1], [1, 1], [0, 1], [0, 1]],
+            color: '#4ade80' // Lime green
+        },
+        'Z': {
+            shape: [[1, 1, 0], [0, 1, 0], [0, 1, 1]],
+            color: '#d4d4d4' // Gray
+        },
+    };
+
+    // A hardcoded solution for the 6x10 board, using piece names.
+    const solutionBoard = [
+        ['U', 'U', 'T', 'T', 'T', 'I', 'I', 'I', 'I', 'I'],
+        ['U', 'X', 'X', 'P', 'T', 'Z', 'Z', 'Z', 'N', 'N'],
+        ['F', 'F', 'X', 'P', 'P', 'L', 'Z', 'Y', 'N', 'W'],
+        ['F', 'F', 'X', 'P', 'L', 'L', 'L', 'Y', 'W', 'W'],
+        ['V', 'V', 'V', 'V', 'L', 'L', 'W', 'Y', 'Y', 'W'],
+        ['V', 'V', 'V', 'V', 'W', 'W', 'W', 'W', 'W', 'Y']
+    ];
+
+    // Global game state
+    let activePiece = null;
+    let offsetX = 0;
+    let offsetY = 0;
+    const gridSize = { width: 10, height: 6 };
+    const cellSize = 30; // Matches CSS
+    let boardState = Array.from({ length: gridSize.height }, () =>
+        Array(gridSize.width).fill(0)
+    );
+
+    // Function to show a message box
+    function showMessageBox(message) {
+        const messageBox = document.getElementById('message-box');
+        const messageText = document.getElementById('message-text');
+        messageText.textContent = message;
+        messageBox.style.display = 'block';
+    }
+
+    // Function to hide the message box
+    function hideMessageBox() {
+        const messageBox = document.getElementById('message-box');
+        messageBox.style.display = 'none';
+    }
+
+    // Function to rotate a piece's shape 90 degrees clockwise
+    function rotateShape(shape) {
+        const rows = shape.length;
+        const cols = shape[0].length;
+        const newShape = Array.from({ length: cols }, () => Array(rows).fill(0));
+        for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < cols; c++) {
+                newShape[c][rows - 1 - r] = shape[r][c];
+            }
+        }
+        return newShape;
+    }
+
+    // Function to flip a piece's shape horizontally
+    function flipShape(shape) {
+        return shape.map(row => [...row].reverse());
+    }
+
+    // Function to check if a piece can be placed at a given position on the board
+    function canPlace(shape, boardX, boardY) {
+        const pieceRows = shape.length;
+        const pieceCols = shape[0].length;
+
+        for (let r = 0; r < pieceRows; r++) {
+            for (let c = 0; c < pieceCols; c++) {
+                if (shape[r][c] === 1) {
+                    const boardRow = boardY + r;
+                    const boardCol = boardX + c;
+
+                    // Check boundaries and if cell is already occupied
+                    if (boardRow < 0 || boardRow >= gridSize.height ||
+                        boardCol < 0 || boardCol >= gridSize.width ||
+                        boardState[boardRow][boardCol] !== 0) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    // Function to place a piece on the board
+    function placePiece(shape, boardX, boardY, color) {
+        const pieceRows = shape.length;
+        const pieceCols = shape[0].length;
+        for (let r = 0; r < pieceRows; r++) {
+            for (let c = 0; c < pieceCols; c++) {
+                if (shape[r][c] === 1) {
+                    boardState[boardY + r][boardX + c] = color;
+                }
+            }
+        }
+        drawBoard();
+    }
+
+    // Function to draw the game board
+    function drawBoard() {
+        const boardElement = document.getElementById('board');
+        boardElement.innerHTML = '';
+        boardElement.style.gridTemplateRows = `repeat(${gridSize.height}, ${cellSize}px)`;
+        boardElement.style.gridTemplateColumns = `repeat(${gridSize.width}, ${cellSize}px)`;
+
+        for (let r = 0; r < gridSize.height; r++) {
+            for (let c = 0; c < gridSize.width; c++) {
+                const cell = document.createElement('div');
+                cell.classList.add('board-cell');
+                // Check if the board state has a piece name and get its color
+                if (pentominoes[boardState[r][c]]) {
+                    cell.style.backgroundColor = pentominoes[boardState[r][c]].color;
+                } else if (boardState[r][c] !== 0) {
+                    // For the original piece placement, which stores the color directly
+                    cell.style.backgroundColor = boardState[r][c];
+                }
+                cell.dataset.row = r;
+                cell.dataset.col = c;
+                boardElement.appendChild(cell);
+            }
+        }
+    }
+
+    // Function to create a pentomino piece DOM element
+    function createPieceElement(pieceName, pieceData) {
+        const pieceElement = document.createElement('div');
+        pieceElement.classList.add('piece');
+        pieceElement.dataset.name = pieceName;
+        pieceElement.dataset.shape = JSON.stringify(pieceData.shape);
+        pieceElement.style.gridTemplateRows = `repeat(${pieceData.shape.length}, ${cellSize}px)`;
+        pieceElement.style.gridTemplateColumns = `repeat(${pieceData.shape[0].length}, ${cellSize}px)`;
+
+        pieceData.shape.forEach(row => {
+            row.forEach(cell => {
+                const cellElement = document.createElement('div');
+                cellElement.classList.add('piece-cell');
+                if (cell === 1) {
+                    cellElement.style.backgroundColor = pieceData.color;
+                }
+                pieceElement.appendChild(cellElement);
+            });
+        });
+
+        // Add controls for rotation and flipping
+        const controlContainer = document.createElement('div');
+        controlContainer.classList.add('control-buttons');
+
+        const rotateButton = document.createElement('button');
+        rotateButton.textContent = 'Rotate';
+        rotateButton.classList.add('control-button');
+        rotateButton.onclick = (e) => {
+            e.stopPropagation(); // Prevent drag from starting
+            let newShape = rotateShape(JSON.parse(pieceElement.dataset.shape));
+            pieceElement.dataset.shape = JSON.stringify(newShape);
+            updatePieceDisplay(pieceElement, newShape, pieceData.color);
+        };
+
+        const flipButton = document.createElement('button');
+        flipButton.textContent = 'Flip';
+        flipButton.classList.add('control-button');
+        flipButton.onclick = (e) => {
+            e.stopPropagation(); // Prevent drag from starting
+            let newShape = flipShape(JSON.parse(pieceElement.dataset.shape));
+            pieceElement.dataset.shape = JSON.stringify(newShape);
+            updatePieceDisplay(pieceElement, newShape, pieceData.color);
+        };
+
+        controlContainer.appendChild(rotateButton);
+        controlContainer.appendChild(flipButton);
+        pieceElement.appendChild(controlContainer);
+
+        // Drag and drop event listeners
+        pieceElement.addEventListener('mousedown', startDrag);
+        pieceElement.addEventListener('touchstart', startDrag, { passive: false });
+
+        return pieceElement;
+    }
+
+    // Function to update the visual display of a piece after rotation or flip
+    function updatePieceDisplay(element, newShape, color) {
+        element.innerHTML = ''; // Clear old cells
+        element.style.gridTemplateRows = `repeat(${newShape.length}, ${cellSize}px)`;
+        element.style.gridTemplateColumns = `repeat(${newShape[0].length}, ${cellSize}px)`;
+
+        newShape.forEach(row => {
+            row.forEach(cell => {
+                const cellElement = document.createElement('div');
+                cellElement.classList.add('piece-cell');
+                if (cell === 1) {
+                    cellElement.style.backgroundColor = color;
+                }
+                element.appendChild(cellElement);
+            });
+        });
+
+        // Re-add control buttons
+        const controlContainer = document.createElement('div');
+        controlContainer.classList.add('control-buttons');
+
+        const rotateButton = document.createElement('button');
+        rotateButton.textContent = 'Rotate';
+        rotateButton.classList.add('control-button');
+        rotateButton.onclick = (e) => {
+            e.stopPropagation();
+            let newerShape = rotateShape(JSON.parse(element.dataset.shape));
+            element.dataset.shape = JSON.stringify(newerShape);
+            updatePieceDisplay(element, newerShape, color);
+        };
+
+        const flipButton = document.createElement('button');
+        flipButton.textContent = 'Flip';
+        flipButton.classList.add('control-button');
+        flipButton.onclick = (e) => {
+            e.stopPropagation();
+            let newerShape = flipShape(JSON.parse(element.dataset.shape));
+            element.dataset.shape = JSON.stringify(newerShape);
+            updatePieceDisplay(element, newerShape, color);
+        };
+
+        controlContainer.appendChild(rotateButton);
+        controlContainer.appendChild(flipButton);
+        element.appendChild(controlContainer);
+    }
+
+    // Drag start handler
+    function startDrag(e) {
+        if (e.target.closest('.control-button')) return;
+
+        activePiece = e.currentTarget;
+        const rect = activePiece.getBoundingClientRect();
+
+        const clientX = e.clientX || e.touches[0].clientX;
+        const clientY = e.clientY || e.touches[0].clientY;
+
+        offsetX = clientX - rect.left;
+        offsetY = clientY - rect.top;
+
+        activePiece.style.position = 'absolute';
+        activePiece.style.transform = 'scale(1.1) rotate(0deg)'; // Ensure no rotation during drag
+        activePiece.style.zIndex = '1000';
+
+        document.addEventListener('mousemove', dragPiece);
+        document.addEventListener('mouseup', dropPiece);
+        document.addEventListener('touchmove', dragPiece, { passive: false });
+        document.addEventListener('touchend', dropPiece);
+    }
+
+    // Drag move handler
+    function dragPiece(e) {
+        if (!activePiece) return;
+        e.preventDefault();
+
+        const clientX = e.clientX || e.touches[0].clientX;
+        const clientY = e.clientY || e.touches[0].clientY;
+
+        activePiece.style.left = `${clientX - offsetX}px`;
+        activePiece.style.top = `${clientY - offsetY}px`;
+    }
+
+    // Drag end handler
+    function dropPiece(e) {
+        if (!activePiece) return;
+
+        document.removeEventListener('mousemove', dragPiece);
+        document.removeEventListener('mouseup', dropPiece);
+        document.removeEventListener('touchmove', dragPiece);
+        document.removeEventListener('touchend', dropPiece);
+
+        const boardRect = document.getElementById('board').getBoundingClientRect();
+        const pieceShape = JSON.parse(activePiece.dataset.shape);
+        const pieceName = activePiece.dataset.name;
+
+        // Calculate potential board position
+        const dropX = (e.clientX || e.changedTouches[0].clientX) - boardRect.left;
+        const dropY = (e.clientY || e.changedTouches[0].clientY) - boardRect.top;
+
+        const boardCol = Math.round((dropX - offsetX) / cellSize);
+        const boardRow = Math.round((dropY - offsetY) / cellSize);
+
+        // Check if the drop is on the board and if the piece fits
+        if (canPlace(pieceShape, boardCol, boardRow)) {
+            const pieceData = pentominoes[pieceName];
+            // Store the piece name instead of the color
+            placePiece(pieceShape, boardCol, boardRow, pieceName);
+            
+            // The user requested to see the solution, so hide the pieces
+            activePiece.style.display = 'none';
+            checkWinCondition();
+        } else {
+            // Snap back to the original position if the placement is invalid
+            activePiece.style.position = 'relative';
+            activePiece.style.left = '';
+            activePiece.style.top = '';
+            activePiece.style.transform = '';
+        }
+
+        activePiece = null;
+    }
+
+    // Function to check if the puzzle is solved
+    function checkWinCondition() {
+        // A simple check: count if all cells are filled
+        const filledCells = boardState.flat().filter(cell => cell !== 0).length;
+        if (filledCells === 60) {
+            showMessageBox('Congratulations! You solved the puzzle!');
+        }
+    }
+
+    // Function to display a solution on the board
+    function showSolution() {
+        boardState = solutionBoard;
+        drawBoard();
+        // Hide all the pieces from the pieces container
+        const piecesContainer = document.getElementById('pieces-container');
+        piecesContainer.style.display = 'none';
+        showMessageBox('Here is a solution!');
+    }
+
+    // Function to reset the board and pieces
+    function resetBoard() {
+        boardState = Array.from({ length: gridSize.height }, () => Array(gridSize.width).fill(0));
+        drawBoard();
+        const piecesContainer = document.getElementById('pieces-container');
+        piecesContainer.innerHTML = '';
+        piecesContainer.style.display = 'flex';
+        for (const name in pentominoes) {
+            const pieceData = pentominoes[name];
+            const pieceElement = createPieceElement(name, pieceData);
+            piecesContainer.appendChild(pieceElement);
+        }
+    }
+
+    // Initialize the game
+    window.onload = function() {
+        drawBoard();
+        const piecesContainer = document.getElementById('pieces-container');
+        for (const name in pentominoes) {
+            const pieceData = pentominoes[name];
+            const pieceElement = createPieceElement(name, pieceData);
+            piecesContainer.appendChild(pieceElement);
+        }
+    };
+</script>
+</body>
+</html>

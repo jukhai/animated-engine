@@ -1,0 +1,47 @@
+    table {
+      border-collapse: collapse;
+      margin: 20px auto;
+    }
+    td {
+      border: 1px solid #999;
+      width: 40px;
+      height: 40px;
+      text-align: center;
+    }
+
+    input {
+      width: 38p;
+      height: 38px;
+      font-size: 18px;
+      text-align: center;
+      border: none;
+      transition: border 0.2s;
+      border: 1px solid #ccc;
+    }
+
+    td.box-border {
+      border-right: 2px solid black;
+      border-bottom: 2px solid black;
+    }
+    td.box-left {
+      border-left: 2px solid black;
+    }
+    td.box-top {
+      border-top: 2px solid black;
+    }
+    td.box-right {
+      border-right: 2px solid black;
+    }
+    td.box-bottom {
+      border-bottom: 2px solid black;
+    }
+    button, select {
+      display: block;
+      margin: 10px auto;
+      padding: 6px 12px;
+      font-size: 16px;
+    }
+    h2, #result {
+      text-align: center;
+      font-weight: bold;
+    }

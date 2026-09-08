@@ -1,0 +1,58 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+input,button{
+    font-size:30px;
+}
+.container {
+    text-align: center;
+}
+
+#board {
+    display: grid;
+    grid-template-columns: repeat(5, 50px);
+    grid-gap: 5px;
+    margin: 10px auto; 
+    justify-content: center;
+}
+
+.cell {
+    width: 50px;
+    height: 50px;
+    border: 2px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Arial Black";
+    font-size: 30px;
+    background-color: white;
+}
+
+.correct {
+    background-color: rgb(70, 212, 70);
+    color: white;
+}
+
+.present {
+    background-color: rgba(255, 255, 0, 0.664);
+    color: black;
+}
+
+.absent {
+    background-color: gray;
+    color: white;
+}
+#message { 
+    font-size: 30px;
+    color:brown;
+}
+#message1 { 
+    font-size: 40px;
+    color :rgb(60, 0, 255);
+}

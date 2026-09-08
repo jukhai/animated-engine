@@ -1,0 +1,78 @@
+
+.box{
+	width: 300px;
+	height: 300px;
+	margin: 20px;
+}
+
+.bg-1{
+	background-image: linear-gradient(to right, lightblue, purple);
+}
+
+.bg-2{
+	background-image: linear-gradient(to bottom, green 40%, transparent 70%), 
+	linear-gradient(to right, rgba(232, 12, 122, 0.5), transparent 70%)
+}
+
+.bg-3{
+	background-image: linear-gradient(to bottom, rgba(232, 12, 122, 0.5), transparent 70%), 
+		linear-gradient(to right, rgba(232, 12, 122, 0.5), transparent 70%);
+	background-size: 30px 30px, 50px 30px;
+}
+
+.bg-4{
+	background-image: radial-gradient(#cd0606 1%, transparent 30%, transparent 60%, #12059b 60%);
+	background-color: rgb(28, 160, 160);
+}
+
+.bg-5{
+	background-image: radial-gradient(#ffffff 3px, transparent 5px, #ffffff 7px, transparent 9px, #ffffff 11px, transparent 13px, #ffffff 15px, transparent 17px, #ffffff 19px, transparent 21px, #ffffff 23px, transparent 25px, #ffffff 27px, transparent 29px, #ffffff 31px, transparent 33px);
+	background-color: teal;
+	background-size: 30px 30px;	
+}
+
+.bg-6{
+	background-image: 
+		linear-gradient(45deg, rgb(249, 8, 8) 50%, transparent 50%), 
+		linear-gradient(90deg, orange 100%, transparent 100%), 
+		linear-gradient(135deg, yellow 50%, transparent 50%), 
+		linear-gradient(180deg, rgb(4, 172, 4) 100%, transparent 100%), 
+		linear-gradient(225deg, rgb(9, 64, 243) 50%, transparent 50%), 
+		linear-gradient(270deg, rgb(61, 7, 188) 100%, transparent 100%), 
+		linear-gradient(315deg, purple 50%, transparent 50%), 
+		linear-gradient(360deg, rgb(68, 4, 171) 100%, transparent 100%);
+		
+	
+	background-position: 0% 0%, 0% 0%, 100% 0%, 100% 0%, 100% 100%, 100% 100%, 0% 100%, 0% 100%;
+	
+	border: 10px solid #d90909;
+	background-repeat: no-repeat;
+	
+/* 	切割成扇形 */
+	background-size: 50% 50%;
+
+/* 	外框變成圓形的 */
+	border-radius: 50%;
+	
+/* 	旋轉的漸變效果 */
+	transition: all, 5s;
+/* 	hover 時的旋轉效果 */
+	&:hover{
+		transform: rotate(3600deg)
+	}
+}
+
+
+
+
+
+.bg-7{
+	border: 4px solid #000;
+/* 	設定「45deg」*/
+	background-image: linear-gradient(180deg, lightblue 50%, orange 50%)
+}
+
+
+
+
+
