@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pe̍h-ōe-jī Scrabble</title>
+  <link rel="stylesheet" href="scrabble.css">
+</head>
+<body>
+  <h1>Pe̍h-ōe-jī Scrabble</h1>
+  <div id="board-wrapper">  
+    <div id="board" class="board"></div>
+  </div>
+  <div id="rack" class="rack"></div>
+  <button onclick="checkWords()" style="background-color:aquamarine">Péng Tap-àn</button>
+    
+
+  <button onclick="giveMaskedHint()">Khòaⁿ ì-sù</button><button id="hint" style="background-color:bisque">Soán jîm-hô chi̍t keh chiah khòaⁿ Thê-sī.</button>
+    <div id="message" style="padding-top:5px"></div>
+<div id="dictionary-lookup" style="margin-top: 1em;">
+  <input type="text" id="lookupInput" placeholder="Enter pe̍h-ōe-jī" oninput="updateSuggestions()" autocomplete="off" />
+  <button onclick="lookupDefinition()" style="background-color:rgb(23, 246, 171);">Péng sû-tián</button>
+  <div id="suggestions" style="border: 1px solid #ccc; display: none; max-height: 150px; overflow-y: auto; position: absolute; background: white;"></div>
+  <div id="lookupResult" style="margin-top: 0.5em;"></div>
+</div>
+
+
+<input id="guessInput" placeholder="Your guess..." />
+<button onclick="submitGuess()">Submit Guess</button>
+<div id="guessResult"></div>
+  <script src="scrabble.js"></script>
+</body>
+</html>
