@@ -1,0 +1,230 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>HTML練手(526)教材</title>
+    <link rel="shortcut icon"  href="./ico/chrome_tai.ico" />
+    <link rel="stylesheet" href="./css/tb.css" />
+    <link rel="stylesheet" href="./css/ruby.css" />
+</head>
+<body> 
+<a href="https://jukhai.blogspot.com/"   target="_blank" title="阿凱老師的blog" >
+<img  width="30"  src="./ico/khaiApr.ico" ></a><br>
+<H1>網頁首頁</H1>
+編寫網頁<br>
+Windows可以用 <b>notepad++</b> 或是 <a href="https://code.visualstudio.com/download" target="_blank"><b>Visual Studio Code</b><img height="30" src="https://code.visualstudio.com/apple-touch-icon.png"></a> <br/>
+Mac 可以用<a href="https://code.visualstudio.com/download" target="_blank"><b>Visual Studio Code</b><img height="30" src="https://code.visualstudio.com/apple-touch-icon.png"></a>  <br />
+還可以用 專業的 <b>Dreamweaver</b> 
+或是 <a href="https://portableapps.com/apps/development/kompozer-portable" target="_blank"><img height="50" src="https://cdn2.portableapps.com/KompoZerPortable_128.png">Nvu Portable & KompoZer Portable - The easy-to-use Nvu web editor</a>
+<hr>
+<a name="top" title="top"> HTML 基本內容 </a><a href="#lnk" title="下方超連結段落"> go back to 超連結 </a><br>
+HTML 為 單純文字檔，內容包含網頁指示用的指令<br />
+<b>(</b>叫做 tag，就是 HTML ELEMENT，都要用 ANSI的羅馬字符，每一種功能都有一個 tag_id寫成<br>
+<font size="5" face="Ariel" color="#F49">&lt;tag_id  attr=option&gt; 之間的資料  &lt;/tag_id&gt;</font> <br>
+這個tag_id 會指示 瀏覽器使用 tag_id 的功能處理 tag_id開始&lt;tag_id&gt; 到 結束&lt;/tag_id&gt; 之間的資料        <br>
+，每一個tag_id 可能有不同的屬性attribute <b>)</b><br>
+各種 tag 指示 瀏覽器使用不同的網頁功能。 
+&amp;  
+<br><a name="top1">WEB版面設計</a>
+<a href="#title">1. 網頁標題字</a>|<a href="#fedit">2.編輯字形</a>|<a href="#edit">3. 文章編排</a>|<a href="#special">
+  4. 特殊符號</a>|<a href="#lnk">5. 超連結</a>|
+<a href="#pic">6. 貼圖</a>|
+ <a href="#youtube">7.插入影音 youtube</a> : <a href="#video">video</a> : <a href="#audio">audio</a>:<a href="#youtube">youtube</a>
+ |<a href="./html/list.html" target="_blank">8. 項目列表(清單)</a>|<a href="./html/table.html">9.表格</a>|<a href="./html/ruby.html">10. Ruby 編輯</a> | <a href="#div1">11. DIV</a><br>
+<hr>
+<table align="right"><tr><td>
+<img width="300px" src="https://miro.medium.com/max/1056/1*F3-8rM92bbTy7JDZpkcJdw.png"></td></tr><tr><td>各種瀏覽器(軟體)的icon</td></tr></table>
+
+<H1 style="color:blue"> 網頁文字 </H1>
+<H2 style="color:red"><a name="title">1. 網頁標題字 &lt;H(1~4)&gt;</a></H2><br>
+<H1>&lt;H1&gt; : HTML liān-si̍p sêng-kó&lt;/H1&gt;</H1>
+<H2>&lt;H2&gt; : HTML liān-si̍p sêng-kó&lt;/H2&gt;</H2>
+<H3>&lt;H3&gt; : HTML liān-si̍p sêng-kó&lt;/H3&gt;</H3>
+<H4>&lt;H4&gt; : HTML liān-si̍p sêng-kó&lt;/H4&gt;</H4>
+<H2 style="color:red"><a name="fedit">2. 編輯字形</a></H2></br>
+<sup>39</sup>&frasl;<sub>40</sub>
+<!-- center
+--> <br>
+<H3>文字 直接設定 字體、大小、顏色&lt;font face="Taigi Unicode" size="1"  color="green"&gt;    &lt;/font&gt;</H3>
+
+<table><tr><td>寫在 同一個 tag element 裡， 使用 attribute :<br>
+  &lt;font face="標楷體"&gt;字體 face &lt;/font&gt;<br>
+  &lt;font size="35pt"&gt;大小 size&lt;/font&gt;字體大小如果數字，沒有單位，則只有 1 到 7； <br>
+  也可以直接給尺寸單位unit： 數字後加上單位(pt, em 等等)<br>
+  
+ &lt;font color="maroon"&gt;顏色 color&lt;/font&gt;&lt;br &gt; <br>
+  in-line style 寫法：在標籤內加入 style="屬性: 值;"，多個屬性之間以分號 ; 隔開。<br>
+  <標籤名稱 style="CSS屬性1: 值1; CSS屬性2: 值2;">文字內容</標籤名稱><br>
+  &lt;font style="color:maroon; font-family:'Noto Sans TC'; font-size:15pt;"&gt; 網頁文字內容 &lt;/font &gt; <br>
+</td></tr>
+
+  <tr><td>寫在 同一個 tag element 裡， <br>使用 attribute :<br><font face="標楷體">字體 face </font><br><font size="35pt">大小 size</font> <br> <font color="maroon">顏色 color</font></td></tr></table><br>
+<br>
+<table><tr><td>Attribute 的寫法  keyword = option <br>
+keyword 是屬於 tag 的某些屬性 HTML5 內定的，必須正確而且是英文半形字體；<br> option 則是 這個 attribute 的 值，是 keyword 的可能 數值，必須人工給<br>
+每個 keyword 之前需空一格，等於 = 緊接 keyword之後。</td></tr></table>
+
+<font face="Taigi Unicode" size="1"> Ta̍k-gê hó, chia̍h pá bô hoân-hó </font><br />
+<font face="Times New Roman" size="2" color="green"> Ta̍k-gê hó, chia̍h pá bô hoân-hó </font><br />
+<font face="Taigi Unicode" size="3"> Ta̍k-gê hó, chia̍h pá bô hoân-hó </font><br/>
+<H3>特殊字</H3>
+下標字體 &lt;sub&gt;<font face="Times New Roman" size="4"> Ta̍k-gê hó, chia̍h <sub>pá bô</sub> hoân-hó </font><br/>
+粗體字&lt;b&gt;<font face="Taigi Unicode" size="5"> Ta̍k-gê hó, <b>chia̍h pá</b> bô hoân-hó </font><br />
+底線字&lt;u&gt;、斜體字&lt;i&gt;<font face="Times New Roman" size="6" color="BLUE"> <u>Ta̍k-gê hó</u>, <i>chia̍h pá</i> bô hoân-hó </font><br />
+刪節字&lt;s&gt;、上標字&lt;sup&gt;<font face="Taigi Unicode" size="7" color="maroon"> Ta̍k-gê hó, <s>chia̍h</s> pá bô <sup>hoân-hó</sup> </font><br />
+</center>
+<H2 style="color:red"><b><a name="edit">3. 文章編排</a></b></H2></br>
+<b>a. &lt;pre&gt; </b><br>
+<a href="#here"> &lt;a href="#here"&gt; HTML 基本內容2  &lt;/a&gt;</a>
+字體設定&lt;font face="Times New Roman" size="2"; color="red" &gt;
+<pre style="font-family:Taigi Unicode; font-size:12; color:gray50; background:#AAA"> <!--/* #HHHHHH -->
+一日 下晡，有一ê富有（pù-ū）ê律師 tī 半中途，看tio̍h 2 ê人 teh路邊chia̍h草。 
+伊感覺有 淡薄á 困擾，tō吩咐 伊ê  司機停車，落車查探。 
+伊問in其中一ê人，“是怎樣 lín會 tī chia chia̍h草 leh？” 
+Hit ê人ìn 講，“Goán 無錢thang買食物，
+                  <font face="Times New Roman" size="2"; color="red"> 所以goán chiah tio̍h-ài chia̍h草。” </font>
+“若án-ni，lí ē-sái來gún 厝，我 chiah hō͘ 你 chia̍h-mi̍h。”律師án-ni 講。
+               “M̄-koh 我 koh有某 kap 2 ê gín-á neh in lóng tī hit pêng 樹á kha。” 
+“Kā in做伙 chhoā--來去。”律師講。 
+       伊oa̍t 頭kā 另一ê人講，“你mā ē-sái tàu-tīn 來。” 
+Hit ê人講，“M̄-ku我mā 有某 koh 有 6 ê gín-á lioh。” 
+“Kā in lóng 做伙chhoā 來去。”律師回答。 
+雖然hit台是一台真大台ê 轎á車，in iah是費了九牛二虎ê氣力，chiah kā全部ê人載上車。 
+路nih，其中一人講，“先生，你真正是一ê大好人，多謝你kā gún全部lóng chhoā 來。! ” 
+律師回答伊講：“我mā感覺真光榮。Lín 的確會真kah-ì gún 厝，gún hia ê草足足有一米koân neh。”
+</pre>
+<b>b. 段落符號 &lt;p&gt;</b><br>
+<p><b>1</b>
+一日 下晡，有一ê富有（pù-ū）ê律師 tī 半中途，看tio̍h 2 ê人 teh路邊chia̍h草。 
+伊感覺有 淡薄á 困擾，tō吩咐 伊ê  司機停車，落車查探。 
+伊問in其中一ê人，“是怎樣 lín會 tī chia chia̍h草 leh？” 
+Hit ê人ìn 講，“Goán 無錢thang買食物，
+                  所以goán chiah tio̍h-ài chia̍h草。” </font>
+</p>
+<p><b>2</b>
+				  “若án-ni，lí ē-sái來gún 厝，我 chiah hō͘ 你 chia̍h-mi̍h。”律師án-ni 講。
+               “M̄-koh 我 koh有某 kap 2 ê gín-á neh in lóng tī hit pêng 樹á kha。” 
+“Kā in做伙 chhoā--來去。”律師講。 
+       伊oa̍t 頭kā 另一ê人講，“你mā ē-sái tàu-tīn 來。” 
+Hit ê人講，“M̄-ku我mā 有某 koh 有 6 ê gín-á lioh。” 
+“Kā in lóng 做伙chhoā 來去。”律師回答。 
+<p>
+<H2 style="color:red"><a name="special">4.特出的空白</a></H2>
+
+<b>因為</b><b> &lt; &gt; ，夾一個 keywoard</b>被用來指示瀏覽器做編譯呈現網頁成果<br>
+<b>所</b>以要在網頁上這些被標示用途的字符，必須使用一個脫離符號 <b>&amp;</b> 包夾一個名字再用 <b>;</b>結尾<br>
+<b>例如</b> &lt;H1&gt; 原始碼要寫<b> &amp;lt;H1&amp;gt; </b> 
+<br /> &amp; <br>
+&amp;amp; 表示&amp; <br>&amp;lt; 表示 &lt; <br>
+&amp;gt; 表示&gt; 等等<br>
+<b>例</b>如空白(不換行空格)也可以用： &amp;nbsp; 表示<br>
+<b>因</b>為連續的空白鍵在網頁中都會被編譯成一個空白鍵<br>
+<b>換行鍵</b>在網頁則會被直接取消，所以用 &lt;br&gt;分行<br>
+Unicode 也可以用這樣的方式表示 UNICODE"&#x1F680;" 編碼為 "&amp;#x1F680;"<br>
+&lt;hr width="50%" size="4"&gt; 畫一條橫線 50% 視窗寬度，粗 4pt 的
+<hr width="50%" size="4" >
+1.&amp;nbsp;  不換行空格
+No-Break Space，不換行空格。這是最常見的空格，也是一般我們鍵盤按下空白鑑會出現的字元。大部分來說我們只會使用這樣的空白，輸入多次 &nbsp; 空格也會累計。&nbsp; 的空格寬度會受字體影響。
+</p>
+<p>
+2. &amp;ensp;半形空格
+En Space，半形空格。en 是一個半型字元寬度的單位，寬度為 em 的一半。例如當 16px 大小的字體，半形就是 8px 的寬度。就定義上來說，一個 en 就是小寫字母 n 的寬度，大約是半個中文字寬。
+</p>
+<p>
+3. &amp;emsp; 全形空格
+Em Space，全形空格。和半形空格同概念，em 是一個全形字元的寬度，如果字體大小是 16px，一個 em 就是 16px，大約等於一個中文字寬。
+</p>
+<p>
+4. &amp;thinsp; 窄空格
+窄空格，顧名思義就是寬度較窄的空格，大約是 1/6 個 em 寬。
+</p>
+<p>
+5. ‌&amp;zwnj;
+全名是 Zero Width Non Joiner，這通常是用於比較複雜的文字或特殊符號當中。首先零寬度表示這個空白不會被顯示出來，它用於分隔兩個字元排列在一起而可能發生的“連字”。也就是說，它是一個分隔元素切開兩個字元，讓它們各自產生自己相對應的文字。
+</p>
+<p>
+6. &amp;zwj;;
+全名是 Zero Width Joiner。與 ZWNJ 相同的是它也是零寬度的空格，並不會被顯示在頁面上。但相反的是，它會觸發前後兩字元的連字效果。這通常是用於較複雜的語言，例如阿拉伯語或印地語等
+</p>
+
+<H2 style="color:green"><a name="lnk">5. 超連結 hyper link </a></H2>
+1. 網頁內引用必須 hyper link in own page<br>
+<b>設定錨點</b> set the anchor<br>
+在網頁要設定錨點的地方，原始碼要寫這樣 &lt;a name="top"&gt; HTML 基本內容 &lt;/a&gt; <br>
+name="top", 其中 top 是自己任意選取的名稱記號，就是取一個錨點的名字。<br>
+<font color="blue">name="top", means giving the name "top" to the anchor for used to link to this point by other place or other users</font><br>
+<br><a name="here">另外一個錨點<br>&lt;a name="here"&gt; HTML 基本內容2 &lt;/a&gt;  </a><br>
+<b>引用錨點</b><br>
+在網頁其他地方，要引用錨點內容時：寫這樣 &lt;a href="#top"&gt; 回頂 &lt;/a&gt;<br>
+<font color="blue">To use this link anchor at the other place， use &lt;a href="#top"&gt; 回頂 &lt;/a&gt; </font>
+<a href="#top" target="_blank" alt="top" title="top1">回頂 </a><br>
+2. 網頁外引用<br> <font color="blue"> hyper link from other files or server</font> <br>
+寫這樣
+&lt;a href="https://www.tlh.org.tw/tlh-ct.html" target="_blank" title="top1"&gt; 台灣羅馬字協會章程 &lt;/a&gt; <br>
+<b>file link to the other server </b><a href="https://www.tlh.org.tw/tlh-ct.html" target="_blank" title="tlh"><img src="https://www.tlh.org.tw/index_files/logo-s.ico" height="13">台灣羅馬字協會章程</a><br>
+<b>file lin to the file in this server</b> <a href="tokttokrb.htm"> 網外文章 </a>獨獨閱讀ē-tang 提升閱讀能力<br> |
+<a href="https://taigi.fhl.net/dict/"> 台日大辭典</a> | 
+<a href="https://taigi.fhl.net/dict/" target="_blank" title="Taigi"> 台日大辭典</a>|<a href="https://drive.google.com/drive/folders/1lsDc8j7O43u6s13qZmnlZkIuIfUjCK5p" target="_blank">雲端硬碟</a>
+<br><hr>
+<H2 style="purple"><a name="pic">插圖</a></H2>
+&lt;img src="23 開喙豆.jpg" border="1"&gt; 插入 圖像插入 "23 開喙豆.jpg" 圖像 ;<br>
+&lt;img src="./images/23 開喙豆.jpg" width="600" height="500" alt="明" title="好花常開"&gt; width 控制寬度，height 控制高度<br>
+<br><img src="./images/23 開喙豆.jpg" width="600" border="1"  alt="開喙豆" title="開喙豆"> <br>
+<br><img src="./images/22挽一枝柚仔花芳.jpg" width="600" border="1"  alt="挽一枝柚仔花芳" title="挽一枝柚仔花芳"> <br>
+<br>error: <br><img src="./images/error.png" width="600" border="1"  alt="error" title="error">  <br>
+<br>Ruby result:<br><img src="./images/876084.png" width="600" border="1"  alt="ruby html" title="ruby html"> error:  <br>
+也可以是 網路上的圖<img src="https://pgw.udn.com.tw/gw/photo.php?u=https://uc.udn.com.tw/photo/2022/05/06/0/16947268.webp
+&x=0&y=0&sw=0&sh=0&exp=3600" alt="明" title="好花常開" width="600"> <br>
+<!--
+<iframe width="560" height="315" src="奶奶的回憶篇.mp4" title="YouTube video player" frameborder="1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+-->
+<b><a name="video">VIDEO</a></b> <br>
+<table border="1px">
+  <tr><td>&lt;video width="320" height="240" controls&gt;<br>
+    &lt;source src="奶奶的回憶篇.mp4" type="video/mp4"&gt;<br>
+    &lt;source src="movie.ogg" type="video/ogg"&gt;<br>
+    Your browser does not support the video tag.<br>
+    &lt;/video&gt;</td><td><video width="320" height="240" controls>
+  <source src="./media/奶奶的回憶篇.mp4" type="video/mp4">
+  <source src="movie.ogg" type="video/ogg">
+  Your browser does not support the video tag.
+</video></td></tr>
+</table>
+<b><a name="audio">AUDIO</a></b><br>
+<table><tr><td>&lt;audio controls&gt;<br>
+  &lt;source src="horse.ogg" type="audio/ogg"&gt;<br>
+  &lt;source src="08 -相思燈.mp3" type="audio/mpeg"&gt;<br>
+  Your browser does not support the audio tag.<br>
+  &lt;/audio&gt;<br></td><td><audio controls>
+  <source src="horse.ogg" type="audio/ogg">
+  <source src="./media/08 -相思燈.mp3" type="audio/mpeg">
+  Your browser does not support the audio tag.
+</audio><br></td></tr></table>
+<a name="youtube">iframe Youtube</a> 用 Youtube <b>分享</b> 的程式碼<br>
+<table><tr><td>
+  &lt;iframe width="560" height="315" src="https://www.youtube.com/embed/ZbwBVWnonzA" title="YouTube video player" 
+  frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+   allowfullscreen&gt;&lt;/iframe&gt;</a>
+  </td><td>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/ZbwBVWnonzA"
+   title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; 
+   clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+   <iframe width="560" height="315" src="https://www.youtube.com/embed/9N2OdWtKilI?si=l_AsXqFm3T-_znQT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  </td></tr></table>
+<a href="#top1">go back</a>
+  <H2><a name="div1">11 DIV</a></H2>
+
+<div class=""> 
+  &lt;div&gt; <br>
+  是 HTML 中最常用的容器標籤，代表「分割區塊」（Division）。
+    它本身沒有任何特殊語意，主要用作組合其他 HTML 元素的「容器」，
+    以便開發者透過 CSS 設定排版樣式，或使用 JavaScript 進行互動操作。
+  
+</div>
+&lt;/div&gt;
+
+
+
+
+</body>
+</html>
