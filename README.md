@@ -2,7 +2,16 @@
 Chit ê bāng-ia̍h sī HTML si̍ōng kán-tan ê kàu-ha̍k.
 lóng-chóng ū **10** tōa  hāng.
 Tio̍h sī 
-1. 網頁標題字|2.編輯字形|3. 文章編排|特殊符號|4. 超連結| 5.貼圖 6. 插入影音 youtube|7.項目列表|8.表格|9. Ruby 編輯 |10. div 
+1. 網頁標題字
+2. 編輯字形
+3. 文章編排|特殊符號
+4. 超連結
+5.貼圖
+6. 插入影音 youtube
+7.項目列表
+8.表格
+9. Ruby 編輯 
+10. div 
 
 HTML 為 單純文字檔，內容包含網頁指示用的指令(叫做 tag，就是 HTML ELEMENT，都要用 ANSI的羅馬字符，每一種功能都有一個 tag_id 寫成
 <tag_id attr=option>
